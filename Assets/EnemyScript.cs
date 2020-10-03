@@ -14,6 +14,9 @@ public class EnemyScript : PersonScript {
 
     // Update is called once per frame
     void FixedUpdate() {
+        if (age >= tms.positions.Count) {
+            return;
+        }
         transform.position = tms.positions[age];
         lightingObject.transform.eulerAngles = new Vector3(0, 0, tms.lookAngles[age] - 90);
         age += 1;

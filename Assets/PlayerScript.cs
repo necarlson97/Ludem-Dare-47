@@ -10,6 +10,8 @@ public class PlayerScript : PersonScript {
     bool alive = true;
     private Rigidbody2D rb2d;
 
+    // What object are we currently carring?
+    GameObject heldObject;
 
     void Start() {
         rb2d = GetComponent<Rigidbody2D>();
@@ -66,11 +68,13 @@ public class PlayerScript : PersonScript {
     public void Kill() {
         // TODO render menu
         alive = false;
+        GameObject.Find("Canvas").transform.Find("DeadMenu").gameObject.SetActive(true);
     }
 
 
     private void OnTriggerEnter2D(Collider2D other) {
-        if (collider.gameObject.name.contains("Enemy") || collider.gameObject.name.contains("Flashlight")) {
+        var colliderName = other.gameObject.name;
+        if (colliderName.Contains("Enemy") || colliderName.Contains("Flashlight")) {
             Kill();
         }
     }
