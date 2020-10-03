@@ -35,14 +35,19 @@ public class TimeMachineScript : MonoBehaviour {
         if (enemies >= maxEnemies) {
             return;
         }
-        Debug.Log("Enemy spawned!");
         Instantiate(enemyPrefab, new Vector3(0, 0, 0), Quaternion.identity);
         nextDelay = delay;
         enemies += 1;
     }
 
     void SetTimer() {
-        timerText.GetComponent<Text>().text = "" + nextDelay;
+        var t = timerText.GetComponent<Text>();
+        if (nextDelay < 5) {
+            t.color = Color.red;
+        } else {
+            t.color = Color.white;
+        }
+        t.text = "" + nextDelay;
         nextDelay -= 1;
     }
 }

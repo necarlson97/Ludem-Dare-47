@@ -1,17 +1,24 @@
-﻿using System.Collections;
+﻿using System; // TODO I fucking hate that I can't just import System.Func
+using System.Linq;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering.Universal;
+using Random = UnityEngine.Random;
+using Object = UnityEngine.Object;
+using UnityEngine.UI;
 
 public class PlayerScript : PersonScript {
 
     // Player move force
     private float speed = 50f;
     bool alive = true;
-    private Rigidbody2D rb2d;
+    public Rigidbody2D rb2d;
 
     // What object are we currently carring?
-    GameObject heldObject;
+    public GameObject heldObject;
+
+    public List<string> heardMessages = new List<string>();
 
     void Start() {
         rb2d = GetComponent<Rigidbody2D>();
@@ -27,6 +34,11 @@ public class PlayerScript : PersonScript {
         UpdateFlashlight();
 
         tms.Save(rb2d, GetLookAngle());
+
+        // TODO space bar
+        if (Input.GetKey("space")) {
+            PutDown();
+        }
     }
 
     public float GetLookAngle() {
@@ -76,6 +88,38 @@ public class PlayerScript : PersonScript {
         var colliderName = other.gameObject.name;
         if (colliderName.Contains("Enemy") || colliderName.Contains("Flashlight")) {
             Kill();
+        }
+    }
+
+    public void PutDown() {
+        // Put whatever down if you are holding it
+        if (heldObject == null) {
+            return;
+        }
+
+        heldObject.GetComponent<SpringJoint2D>().breakForce = 0;
+        // Toss away, was wrong
+        var lookVector = Quaternion.AngleAxis(GetLookAngle(), Vector3.forward) * Vector3.right;
+        var toss = lookVector * Random.Range(0, 0.2f);
+        heldObject.transform.position = transform.position + lookVector * 2f;
+        heldObject.GetComponent<Rigidbody2D>().AddForce(toss);
+        heldObject = null;
+    }
+
+    public void DisplayHint(string msg) {
+        // Display a hint at the bottom - unless we already heard it
+        if (!heardMessages.Contains(msg)) {
+            GameObject.Find("MessageText").GetComponent<Text>().text = msg;
+            heardMessages.Add(msg);
+            Invoke("ClearMessage", 3f);
+        }
+    }
+
+    public void ClearMessage() {
+        var t = GameObject.Find("MessageText").GetComponent<Text>();
+        // If what was displayed is a hint (not a sign)
+        if (heardMessages.Contains(t.text)) {
+            t.text = "";
         }
     }
 }
