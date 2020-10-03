@@ -28,11 +28,9 @@ public class ToyScript : MonoBehaviour {
         if (other.gameObject == hole) {
             set = true;
             transform.position = hole.transform.position;
+            Debug.Log("me " + gameObject.name + "him " + other.gameObject.name);
             GetComponent<Rigidbody2D>().velocity = new Vector2();
-            Debug.Log(gameObject);
-            var tbs = transform.parent.gameObject.GetComponent<ToyboxScript>();
-            tbs.toysSet += 1;
-            GameObject.Find("ToyText").GetComponent<Text>().text = tbs.toysSet + " / " + tbs.totalToys;
+            transform.parent.gameObject.GetComponent<ToyboxScript>().CheckToys();
             return;
         }
 

@@ -18,11 +18,28 @@ public class TimeMachineScript : MonoBehaviour {
     int maxEnemies = 10;
     int enemies = 0;
 
+    public AudioClip slowSong;
+    public AudioClip fastSong;
+
     void Start() {
         timerText = GameObject.Find("TimerText");
         InvokeRepeating("SpawnEnemy", delay, delay);
         InvokeRepeating("SetTimer", 0f, 1f);
         nextDelay = delay;
+
+        // Start with slow song, but after that, loop fast versionb
+        var audioSource = GetComponent<AudioSource>();
+        audioSource.clip = slowSong;
+        audioSource.Play();
+        // Invoke("PlayFastSong", audioSource.clip.length);
+    }
+
+    public void PlayFastSong() {
+        var audioSource = GetComponent<AudioSource>();
+        audioSource.Stop(); // just in case
+        audioSource.clip = fastSong;
+        audioSource.Play();
+        audioSource.loop = true;
     }
 
     public void Save(Rigidbody2D rb2d, float lookAngle) {

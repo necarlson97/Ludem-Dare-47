@@ -8,7 +8,6 @@ public class SignScript : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D other) {
         // Display message to player
-        Debug.Log(other);
         var colliderName = other.gameObject.name;
         if (colliderName.Contains("Player")) {
             GameObject.Find("MessageText").GetComponent<Text>().text = message;
