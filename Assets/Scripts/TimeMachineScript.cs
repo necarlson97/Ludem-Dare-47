@@ -12,7 +12,7 @@ public class TimeMachineScript : MonoBehaviour {
     GameObject timerText;
 
     // How long between spawining?
-    float delay = 20f;
+    float delay = 30f;
     float nextDelay;
 
     int maxEnemies = 10;

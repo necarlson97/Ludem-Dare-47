@@ -173,8 +173,8 @@ public class PlayerScript : PersonScript {
         };
 
         t.text = (
-            tops[Random.Range(0, tops.Count)] + "\n" +
-            quotes[Random.Range(0, quotes.Count)] + "\n" +
+            tops[Random.Range(0, tops.Count)] + "\n\n" +
+            quotes[Random.Range(0, quotes.Count)] + "\n\n" +
             "Tip: " + tips[Random.Range(0, tips.Count)]
         );
     }
