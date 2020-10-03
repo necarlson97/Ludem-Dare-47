@@ -15,6 +15,9 @@ public class TimeMachineScript : MonoBehaviour {
     float delay = 2f;
     float nextDelay;
 
+    int maxEnemies = 10;
+    int enemies = 0;
+
     void Start() {
         timerText = GameObject.Find("TimerText");
         InvokeRepeating("SpawnEnemy", delay, delay);
@@ -29,9 +32,13 @@ public class TimeMachineScript : MonoBehaviour {
     }
 
     void SpawnEnemy() {
+        if (enemies >= maxEnemies) {
+            return;
+        }
         Debug.Log("Enemy spawned!");
         Instantiate(enemyPrefab, new Vector3(0, 0, 0), Quaternion.identity);
         nextDelay = delay;
+        enemies += 1;
     }
 
     void SetTimer() {

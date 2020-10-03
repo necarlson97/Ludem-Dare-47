@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering.Universal;
 
-public class PlayerScript : MonoBehaviour {
+public class PlayerScript : PersonScript {
 
     // Player move force
     private float speed = 50f;
@@ -13,6 +13,7 @@ public class PlayerScript : MonoBehaviour {
 
     void Start() {
         rb2d = GetComponent<Rigidbody2D>();
+        SetFlashlight();
     }
 
     void FixedUpdate() {
@@ -21,9 +22,18 @@ public class PlayerScript : MonoBehaviour {
         }
 
         Move();
-        Flashlight();
+        UpdateFlashlight();
 
         tms.Save(rb2d, GetLookAngle());
+    }
+
+    public float GetLookAngle() {
+        // Get the angle we are looking at based on mouse
+        var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePos.z = 0;
+        mousePos -= transform.position;
+        // Twist light to point twoards mouse
+        return Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg;
     }
 
     void Move() {
@@ -48,24 +58,20 @@ public class PlayerScript : MonoBehaviour {
 
         //Call the AddForce function of our Rigidbody2D rb2d supplying movement multiplied by speed to move our player.
         rb2d.AddForce(move);
-    }
 
-    float GetLookAngle() {
-        // Get the angle we are looking at based on mouse
-        var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mousePos.z = 0;
-        mousePos -= rb2d.transform.position;
-        // Twist light to point twoards mouse
-        return Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg;
-    }
-
-    void Flashlight() {
-        // Render our players flashlight
+        // Rotate to look at mouse
         lightingObject.transform.eulerAngles = new Vector3(0, 0, GetLookAngle() - 90);
     }
 
     public void Kill() {
         // TODO render menu
         alive = false;
+    }
+
+
+    private void OnTriggerEnter2D(Collider2D other) {
+        if (collider.gameObject.name.contains("Enemy") || collider.gameObject.name.contains("Flashlight")) {
+            Kill();
+        }
     }
 }
