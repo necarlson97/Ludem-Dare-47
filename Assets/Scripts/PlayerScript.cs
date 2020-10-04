@@ -70,6 +70,11 @@ public class PlayerScript : PersonScript {
             move.x += 1;
         }
 
+        // Debugging, force all toys into holes
+        if (Input.GetKey("0")) {
+            GameObject.Find("Toys").GetComponent<ToyboxScript>().ForceWin();
+        }
+
         // Don't have diagnonals be faster
         move = move.normalized * speed;
 
@@ -96,7 +101,7 @@ public class PlayerScript : PersonScript {
         heldObject.GetComponent<SpringJoint2D>().breakForce = 0;
         // Toss away, was wrong
         var lookVector = Quaternion.AngleAxis(GetLookAngle(), Vector3.forward) * Vector3.right;
-        var toss = lookVector * Random.Range(0, 0.2f);
+        var toss = lookVector * 100f;
         heldObject.transform.position = transform.position + lookVector * 2f;
         heldObject.GetComponent<Rigidbody2D>().AddForce(toss);
         heldObject = null;
@@ -169,7 +174,10 @@ public class PlayerScript : PersonScript {
             "Plan the important parts of your route",
             "Explore for little places to hide",
             "Be swift - but predictable",
-            "Try not to make rash, sudden swivels"
+            "Try not to make rash, sudden swivels",
+            "Try a run that is just for exploring, finding signs, etc",
+            "Practice the puzzels one at a time, then link them",
+            "Run while dragging your face into a wall - won't see anyone then!",
         };
 
         t.text = (

@@ -31,7 +31,7 @@ public class TimeMachineScript : MonoBehaviour {
         var audioSource = GetComponent<AudioSource>();
         audioSource.clip = slowSong;
         audioSource.Play();
-        // Invoke("PlayFastSong", audioSource.clip.length);
+        Invoke("PlayFastSong", slowSong.length);
     }
 
     public void PlayFastSong() {
