@@ -2,7 +2,7 @@
 
 Inventing time travel was easy... The hard part is surviving the paradoxes! Escape - but don't let your past spot you!
 
-
+Click here to watch a dumb video I made at 1am after 19 straight hours of coding!
 [![Alt text](https://img.youtube.com/vi/jGzbPXnorX4/0.jpg)](https://www.youtube.com/watch?v=jGzbPXnorX4)
 
 
