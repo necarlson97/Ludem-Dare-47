@@ -29,6 +29,12 @@ public class ToyScript : MonoBehaviour {
             set = true;
             transform.position = hole.transform.position;
             GetComponent<Rigidbody2D>().velocity = new Vector2();
+
+            // Shouldnt happen, this is when a object starts alredy in hole,
+            // but just putting bandaid for now
+            if (transform.parent.gameObject == null) {
+                return;
+            }
             transform.parent.gameObject.GetComponent<ToyboxScript>().CheckToys();
             GetComponent<AudioSource>().Play();
             return;

@@ -75,6 +75,10 @@ public class PlayerScript : PersonScript {
             GameObject.Find("Toys").GetComponent<ToyboxScript>().ForceWin();
         }
 
+        if (Input.GetKey("escape")) {
+            Application.Quit();
+        }
+
         // Don't have diagnonals be faster
         move = move.normalized * speed;
 
